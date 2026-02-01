@@ -71,15 +71,15 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping("/{patientId}")
-    public ResponseEntity<Void> deletePatient(@PathVariable int patientId) {
-        try {
-            jpaService.deletePatient(patientId);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+   @DeleteMapping("/{patientId}")
+public ResponseEntity<Void> deletePatient(@PathVariable int patientId) {
+    try {
+        jpaService.deletePatient(patientId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // Must be 204
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
 
     // ArrayList APIs
     @GetMapping("/fromArrayList")

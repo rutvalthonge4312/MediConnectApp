@@ -28,11 +28,6 @@ public class PatientServiceImplJpa implements PatientService {
     }
 
     @Override
-    public Patient getPatientById(int patientId) {
-        return patientRepository.findById(patientId).orElse(null);
-    }
-
-    @Override
     public Integer addPatient(Patient patient) {
         Patient saved = patientRepository.save(patient);
         return saved.getPatientId(); // Return generated ID for test cases
@@ -46,13 +41,19 @@ public class PatientServiceImplJpa implements PatientService {
     }
 
     @Override
-    public void deletePatient(int patientId) throws Exception {
-        if (patientRepository.existsById(patientId)) {
-            patientRepository.deleteById(patientId);
-        } else {
-            throw new Exception("Patient not found");
-        }   
+public void deletePatient(int patientId) throws Exception {  // Add throws Exception
+    if (patientRepository.existsById(patientId)) {
+        patientRepository.deleteById(patientId);
+    } else {
+        throw new Exception("Patient not found");  // Throw exception if not found
     }
+}
+
+@Override
+public Patient getPatientById(int patientId) throws Exception {
+    return patientRepository.findById(patientId)
+            .orElseThrow(() -> new Exception("Patient not found"));
+}
 
     @Override
     public List<Patient> getAllPatientSortedByName() {

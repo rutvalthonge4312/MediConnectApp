@@ -7,23 +7,19 @@ import java.util.List;
 
 public interface DoctorService {
 
-    public List<Doctor> getAllDoctors() throws Exception;
+    List<Doctor> getAllDoctors() throws Exception;
 
-    public Integer addDoctor(Doctor doctor) throws Exception;
+    Doctor addDoctor(Doctor doctor) throws Exception;  // return Doctor object
 
-    public List<Doctor> getDoctorSortedByExperience() throws Exception;
+    Doctor getDoctorById(int doctorId) throws Exception;
 
-    default void emptyArrayList() {
-    }
+    Doctor updateDoctor(Doctor doctor) throws Exception; // takes Doctor object only
 
-    //Do not implement these methods in DoctorServiceImplArraylist.java class
-    default public void updateDoctor(Doctor doctor)throws Exception { }
+    void deleteDoctor(int doctorId) throws Exception;
 
-    default public void deleteDoctor(int doctorId)throws Exception { }
+    List<Doctor> getDoctorSortedByExperience() throws Exception;
 
-    default Doctor getDoctorById(int doctorId)throws Exception { return null; }
+    default void emptyArrayList() {}
 
-    //Do not implement these methods in DoctorServiceImplArraylist.java and DoctorServiceImplJdbc.java class
-    // Do not implement this method until day-13
-    default public void modifyDoctorDetails(DoctorDTO doctorDTO) { }
+    default void modifyDoctorDetails(DoctorDTO doctorDTO) {}
 }

@@ -22,9 +22,8 @@ public class DoctorServiceImplJpa implements DoctorService {
     }
 
     @Override
-    public Integer addDoctor(Doctor doctor) throws Exception {
-        Doctor savedDoctor = doctorRepository.save(doctor);
-        return savedDoctor.getDoctorId();
+    public Doctor addDoctor(Doctor doctor) throws Exception {
+        return doctorRepository.save(doctor); 
     }
 
     @Override
@@ -34,13 +33,14 @@ public class DoctorServiceImplJpa implements DoctorService {
 
     // ✅ SIGNATURE MUST MATCH INTERFACE
     @Override
-    public void updateDoctor(Doctor doctor) throws Exception {
-        Doctor existing = doctorRepository.findByDoctorId(doctor.getDoctorId());
-        if (existing == null) {
-            throw new Exception("Doctor not found");
-        }
-        doctorRepository.save(doctor);
+    public Doctor updateDoctor(Doctor doctor) throws Exception {
+    Doctor existing = doctorRepository.findByDoctorId(doctor.getDoctorId());
+    if (existing == null) {
+        throw new Exception("Doctor not found");
     }
+    return doctorRepository.save(doctor);
+}
+
 
     @Override
     public void deleteDoctor(int doctorId) throws Exception {
@@ -53,6 +53,7 @@ public class DoctorServiceImplJpa implements DoctorService {
 
     @Override
     public List<Doctor> getDoctorSortedByExperience() throws Exception {
-        return doctorRepository.findAllByOrderByExperienceAsc();
-    }
+    return doctorRepository.findAllByOrderByYearsOfExperienceAsc(); // match repository method
+}
+
 }

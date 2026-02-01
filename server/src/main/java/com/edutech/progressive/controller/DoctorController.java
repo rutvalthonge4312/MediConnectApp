@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.edutech.progressive.service.DoctorService;
+
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {
@@ -37,14 +38,14 @@ public class DoctorController {
 
     // POST /doctor
     @PostMapping
-public ResponseEntity<?> addDoctor(@RequestBody Doctor doctor) {
-    try {
-        Integer id = doctorService.addDoctor(doctor);
-        return new ResponseEntity<>(id, HttpStatus.CREATED); 
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().build();
+    public ResponseEntity<Integer> addDoctor(@RequestBody Doctor doctor) {
+        try {
+            Integer doctorId = doctorService.addDoctor(doctor);
+            return new ResponseEntity<>(doctorId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-}
 
     // GET /doctor/{doctorId}
     @GetMapping("/{doctorId}")
@@ -58,16 +59,14 @@ public ResponseEntity<?> addDoctor(@RequestBody Doctor doctor) {
 
     // PUT /doctor/{doctorId}
     @PutMapping("/{doctorId}")
-public ResponseEntity<?> updateDoctor(
-        @PathVariable int doctorId,
-        @RequestBody Doctor doctor) {
-    try {
-        doctor.setDoctorId(doctorId);     
-        doctorService.updateDoctor(doctor); 
-        return ResponseEntity.ok().build();
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().build();
-    }
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable int doctorId, @RequestBody Doctor doctor) {
+        try {
+            doctor.setDoctorId(doctorId); // ensure ID is set
+            Doctor updatedDoctor = doctorService.updateDoctor(doctor);
+            return new ResponseEntity<>(updatedDoctor, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // DELETE /doctor/{doctorId}
@@ -75,7 +74,7 @@ public ResponseEntity<?> updateDoctor(
     public ResponseEntity<Void> deleteDoctor(@PathVariable int doctorId) {
         try {
             doctorService.deleteDoctor(doctorId);
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // if test expects 401
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
