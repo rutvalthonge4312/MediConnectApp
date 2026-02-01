@@ -1,7 +1,19 @@
 package com.edutech.progressive.controller;
 
 import com.edutech.progressive.entity.Patient;
+import com.edutech.progressive.service.impl.PatientServiceImplArraylist;
+import com.edutech.progressive.service.impl.PatientServiceImplJpa;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,7 +40,7 @@ public class PatientController {
     }
 
     @GetMapping("/{patientId}")
-    public ResponseEntity<Patient> getPatientById(int patientId) {
+    public ResponseEntity<Patient> getPatientById(@PathVariable int patientId) {
         try{
             Patient patient = patientService.getPatientById(patientId);
             if (patient != null) {
@@ -43,7 +55,7 @@ public class PatientController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Integer> addPatient(Patient patient) {
+    public ResponseEntity<Integer> addPatient(@RequestBody Patient patient) {
         try{
             Integer id = patientService.addPatient(patient);
             return ResponseEntity.ok(id);
@@ -53,8 +65,8 @@ public class PatientController {
         }
     }
 
-    @ PutMapping("/{patientId}")
-    public ResponseEntity<Void> updatePatient(int patientId, Patient patient) {
+    @PutMapping("/{patientId}")
+    public ResponseEntity<Void> updatePatient(@PathVariable int patientId,@RequestBody Patient patient) {
         try{
             patientService.updatePatient(patientId, patient);
             return ResponseEntity.ok().build();
@@ -75,7 +87,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/toArraylist")
+    @GetMapping("/fromArrayList")
     public ResponseEntity<List<Patient>> getAllPatientFromArrayList() {
         try{
             List<Patient> patients = patientServiceArraylist.getAllPatients();
@@ -86,21 +98,21 @@ public class PatientController {
         }
     }
 
-    @PostMapping("/toArraylist")
-    public ResponseEntity<Void> addPatientToArrayList() {
+    @PostMapping("/toArrayList")
+    public ResponseEntity<Void> addPatientToArrayList(@RequestBody Patient patient) {
        try{
-            patientServiceArraylist.addPatientToArrayList();
-            return ResponseEntity.ok().build();
+            patientServiceArraylist.addPatient(patient);
+            return ResponseEntity.status(201).body(null);
         }
         catch(Exception e){
             return ResponseEntity.status(500).build();
         }
     }
 
-    @GetMapping("/fromArraylist/sorted")
+    @GetMapping("/fromArrayList/sorted")
     public ResponseEntity<List<Patient>> getAllPatientSortedByNameFromArrayList() {
         try{
-            List<Patient> patients = patientServiceArraylist.getAllPatientSortedByNameFromArrayList();
+            List<Patient> patients = patientServiceArraylist.getAllPatientSortedByName();
             return ResponseEntity.ok(patients);
         }
         catch(Exception e){

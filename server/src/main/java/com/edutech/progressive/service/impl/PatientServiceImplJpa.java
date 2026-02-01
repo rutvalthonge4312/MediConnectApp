@@ -1,8 +1,14 @@
 package com.edutech.progressive.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.edutech.progressive.entity.Patient;
+import com.edutech.progressive.service.PatientService;
 
 @Service
-public class PatientServiceImplJpa implements PatientService {
+public class PatientServiceImplJpa{
 
     // private PatientDoa patientDao=mew DoctorDAOImpl();
     
@@ -19,11 +25,9 @@ public class PatientServiceImplJpa implements PatientService {
     }
 
     public void updatePatient(int patientId, Patient patient) {
-        return null;
     }
 
     public void deletePatient(int patientId) {
-        return null;
     }
 
     public List<Patient> getAllPatientFromArrayList() {
@@ -31,7 +35,6 @@ public class PatientServiceImplJpa implements PatientService {
     }
 
     public void addPatientToArrayList() {
-        return null;
     }
 
     public List<Patient> getAllPatientSortedByNameFromArrayList() {
