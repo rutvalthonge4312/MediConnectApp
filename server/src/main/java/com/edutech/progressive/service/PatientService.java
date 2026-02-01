@@ -1,15 +1,15 @@
 package com.edutech.progressive.service;
 
+import java.util.List;
+
 import com.edutech.progressive.dto.PatientDTO;
 import com.edutech.progressive.entity.Patient;
-
-import java.util.List;
 
 public interface PatientService {
 
     List<Patient> getAllPatients() throws Exception;
 
-    Integer addPatient(Patient patient) throws Exception;
+    public Integer addPatient(Patient patient) throws Exception;
 
     List<Patient> getAllPatientSortedByName() throws Exception;
 
